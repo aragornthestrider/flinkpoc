@@ -20,3 +20,7 @@ services:
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 2
+  tasksubmitter:
+    image: pyflink:1.18.0
+    command: taskmanager
+    scale: 1

@@ -32,3 +32,13 @@ services:
     environment:
       - FLINK_MODE=taskmanager
       - FLINK_JOB_MANAGER_RPC_ADDRESS=jobmanager
+
+
+flink run --jobmanager jobmanager:8081 --python consumerflink.py
+
+
+docker pull --platform linux/amd64 pyflink/playgrounds:1.13.0-rc2
+
+docker pull --platform linux/amd64 bitnami/spark:latest
+
+docker-compose exec jobmanager ./bin/flink run -py /opt/examples/consumerflink.py

@@ -8,7 +8,8 @@ import (
 )
 
 type Config struct {
-	ServicePort int `yaml:"servicePort"`
+	KafkaBrokers []string `yaml:"kafkaBrokers"`
+	ServicePort  int      `yaml:"servicePort"`
 }
 
 func ParseConfig(configFilePath string, logger *zap.Logger) *Config {

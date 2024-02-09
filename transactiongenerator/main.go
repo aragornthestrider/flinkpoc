@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"sync"
 	"syscall"
+	"transactiongenerator/application"
 	"transactiongenerator/config"
 	"transactiongenerator/server"
 
@@ -23,7 +24,7 @@ func main() {
 
 	logger, err := NewLogger("info")
 	if err != nil {
-		log.Fatal("Error in setting up logger")
+		log.Println("Error in setting up logger")
 		return
 	}
 
@@ -33,7 +34,7 @@ func main() {
 		cancel()
 	}()
 
-	configPath := flag.String("config", "/config/config.yaml", "Path of config file")
+	configPath := flag.String("config", "config/config.yaml", "Path of config file")
 	config := config.ParseConfig(*configPath, logger)
 	logger.Info("Config read is: ", zap.Any("Config", config))
 
@@ -50,6 +51,16 @@ func main() {
 			logger.Error("Error in running server", zap.Error(err))
 		}
 	}()
+
+	app := new(application.Application)
+
+	err = app.Init(config.KafkaBrokers, logger)
+	if err != nil {
+		logger.Error("Error in initialising app", zap.Error(err))
+		return
+	}
+
+	go app.Start(ctx)
 
 	server.SetHealthy(true)
 	server.SetReady(true)

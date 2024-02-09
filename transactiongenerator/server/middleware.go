@@ -35,10 +35,10 @@ func (s *Server) encodeJSON(rw http.ResponseWriter, r *http.Request, httpStatus 
 	if err != nil {
 		rw.WriteHeader(http.StatusInternalServerError)
 		s.rwFunc(rw, []byte("Internal error"))
-	} else {
-		rw.WriteHeader(httpStatus)
-		s.rwFunc(rw, res)
+		return
 	}
+	rw.WriteHeader(httpStatus)
+	s.rwFunc(rw, res)
 }
 
 func (s *Server) rwFunc(rw http.ResponseWriter, writeBytes []byte) {

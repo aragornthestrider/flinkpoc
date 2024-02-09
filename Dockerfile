@@ -21,3 +21,4 @@ rm -rf /var/lib/apt/lists/*
 
 COPY apache-flink*.tar.gz /
 RUN pip3 install /apache-flink-libraries*.tar.gz && pip3 install /apache-flink*.tar.gz
+COPY consumerflink.py /

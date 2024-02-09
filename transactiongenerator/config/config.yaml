@@ -1,1 +1,2 @@
+kafkaBrokers: [localhost:9092]
 servicePort: 8080
